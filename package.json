@@ -3,9 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "description": "红点管理",
+  "packageManager": "pnpm@9.15.2",
   "scripts": {
     "format": "prettier -w .",
-    "build": "turbo run build"
+    "build": "turbo run build --filter=red-dot --filter=red-dot-vue --filter=red-dot-react"
   },
   "author": "JanderFan",
   "devDependencies": {
