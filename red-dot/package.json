@@ -1,0 +1,32 @@
+{
+  "$schema": "../.vscode/package",
+  "name": "red-dot",
+  "version": "1.1.0",
+  "description": "使用前缀树管理红点的数量关系",
+  "keywords": [
+    "red",
+    "dot"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "jest"
+  },
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "mobx": "^6.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/fanjinde/red-dot"
+  },
+  "author": {
+    "name": "fanjinde"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT"
+}

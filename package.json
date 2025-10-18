@@ -1,0 +1,18 @@
+{
+  "name": "red-dot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "红点管理",
+  "scripts": {
+    "format": "prettier -w ."
+  },
+  "author": "Jander Fan",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  }
+}
