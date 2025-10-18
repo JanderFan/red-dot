@@ -1,20 +1,24 @@
+import { RootKey } from './constant';
 import { RedDotNode, RedDotNodeJSON } from './RedDotNode';
+import { RedDotRootNode } from './RedDotRootNode';
 
 export class RedDotTrie {
-  public root: RedDotNode = new RedDotNode('root');
+  public readonly root: RedDotNode = new RedDotRootNode(RootKey);
 
   insert(path: string) {
     const segments = path.split('.');
     let currentNode = this.root;
+    let newNode: RedDotNode | null = null;
 
     for (const segment of segments) {
-      // 如果当前节点存在该分支
+      // 如果当前节点不存在该分支
       if (!currentNode.has(segment)) {
-        const newNode = new RedDotNode(segment, currentNode);
+        newNode = new RedDotNode(segment, currentNode);
         this.insertNode(newNode, currentNode);
       }
       currentNode = currentNode.children.get(segment)!;
     }
+    return newNode ?? currentNode;
   }
 
   private insertNode(node: RedDotNode, parentNode: RedDotNode) {
@@ -44,15 +48,36 @@ export class RedDotTrie {
 
   fromJSON(json: RedDotNodeJSON) {
     this.root.setCount(json.count);
+    const filterRoot = (item: string) => item !== '';
 
     const insert = (data: RedDotNodeJSON[], parent: RedDotNode) => {
+      console.log('parent', parent.key);
       data.forEach((item) => {
-        const node = new RedDotNode(item.key, parent);
-        node.count = item.count;
-        node.isSlient = item.isSlient;
-        parent.children.set(item.key, node);
-        if (item.children.length > 0) {
-          insert(item.children, node);
+        console.log('item.key', item.key);
+
+        const searchPath = [parent.path, item.key].filter(filterRoot).join('.');
+        const nodeInTree = this.search(searchPath);
+        // 如果存在node
+        if (nodeInTree) {
+          // 赋值
+          // nodeInTree.count = item.count;
+          // nodeInTree.isSilence = item.isSilence;
+          nodeInTree.setCount(item.count);
+          nodeInTree.setSilence(item.isSilence);
+          if (item.children.length > 0) {
+            insert(item.children, nodeInTree);
+          }
+        } else {
+          const newNode = new RedDotNode(item.key, parent);
+          // newNode.count = item.count;
+          // newNode.isSilence = item.isSilence;
+          newNode.setCount(item.count);
+          newNode.setSilence(item.isSilence);
+
+          parent.children.set(item.key, newNode);
+          if (item.children.length > 0) {
+            insert(item.children, newNode);
+          }
         }
       });
     };

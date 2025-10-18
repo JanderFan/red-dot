@@ -1,5 +1,5 @@
 {
-  "name": "red-dot-vue",
+  "name": "red-dot-react",
   "version": "2.0.0",
   "description": "",
   "module": "dist/index.mjs",
@@ -13,12 +13,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "eslint-plugin-vue": "^10.5.1",
-    "red-dot": "workspace:^",
-    "vue": "catalog:vue3"
+    "eslint-plugin-react": "^7.37.5",
+    "react": "catalog:react19",
+    "red-dot": "workspace:^"
   },
   "peerDependencies": {
-    "red-dot": "workspace:^",
-    "vue": "catalog:vue3"
+    "@types/react": "catalog:react19",
+    "red-dot": "workspace:^"
   }
 }

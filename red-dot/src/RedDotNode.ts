@@ -1,9 +1,10 @@
 import { action, autorun, makeObservable, observable } from 'mobx';
+import { RootKey } from './constant';
 
 export type RedDotNodeJSON = {
   key: string;
   count: number;
-  isSlient: boolean;
+  isSilence: boolean;
   children: RedDotNodeJSON[];
 };
 
@@ -17,11 +18,24 @@ export class RedDotNode {
   /**
    * 沉默节点，不计如父节点数量
    */
-  isSlient = false;
+  isSilence = false;
   /**
    * 红点数量
    */
   count = 0;
+
+  get path(): string {
+    let parent = this.parent;
+    const result = [this.key];
+    while (parent !== null) {
+      if (parent.key === RootKey) {
+        break;
+      }
+      result.unshift(parent.key);
+      parent = parent.parent;
+    }
+    return result.join('.');
+  }
 
   constructor(
     public key: string,
@@ -29,13 +43,14 @@ export class RedDotNode {
   ) {
     makeObservable(this, {
       count: observable,
-      isSlient: observable,
-      setCount: action
+      isSilence: observable,
+      setCount: action,
+      setSilence: action
     });
   }
 
-  setSlient(slient: boolean) {
-    this.isSlient = slient;
+  setSilence(silence: boolean) {
+    this.isSilence = silence;
     if (this.parent !== null) {
       this.parent.collect();
     }
@@ -61,7 +76,7 @@ export class RedDotNode {
 
   collect() {
     const count = Array.from(this.children).reduce((result, item) => {
-      if (item[1].isSlient) {
+      if (item[1].isSilence) {
         return result;
       }
       return result + item[1].count;
@@ -73,7 +88,7 @@ export class RedDotNode {
     return {
       key: this.key,
       count: this.count,
-      isSlient: this.isSlient,
+      isSilence: this.isSilence,
       children: Array.from(this.children).map((item) => {
         return item[1].toJSON();
       })

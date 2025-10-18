@@ -20,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRedDotState } from '../../composable/useRedDotState';
-import { useRedDotNode } from '../../plugin/red-dot';
+import { useRedDotNode, useRedDotState } from 'red-dot-vue';
+
 const [friendNewCount] = useRedDotState('friend.new');
 const [friendFindCount] = useRedDotState('friend.find');
 

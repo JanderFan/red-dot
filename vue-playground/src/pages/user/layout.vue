@@ -14,15 +14,15 @@
         :value="userVersionCount"
         :color="color"
       >
-        <el-button>新版本</el-button>
+        <el-button @click="versionClick">新版本</el-button>
       </el-badge>
       <el-switch
         active-text="接收通知"
         inactive-text="屏蔽通知"
         :active-value="false"
         :inactive-value="true"
-        :model-value="userVersionSlient"
-        @change="handleChange"
+        :model-value="userVersionSilence"
+        @input="handleChange"
         inline-prompt
       />
     </li>
@@ -30,20 +30,25 @@
 </template>
 
 <script setup lang="ts">
+import { useRedDotNode, useRedDotState } from 'red-dot-vue';
 import { computed } from 'vue';
-import { useRedDotState } from '../../composable/useRedDotState';
-import { useRedDotNode } from '../../plugin/red-dot';
+
 const [userPackCount] = useRedDotState('user.pack');
-const [userVersionCount, userVersionSlient] = useRedDotState('user.version');
+const [userVersionCount, userVersionSilence] = useRedDotState('user.version');
 
 const userVersionNode = useRedDotNode('user.version');
 const color = computed(() => {
-  return userVersionSlient.value ? '#cccccc' : '#ff0000';
+  return userVersionSilence.value ? '#cccccc' : '#ff0000';
 });
 
-const handleChange = (val: boolean) => {
-  console.log('val', val);
-  userVersionNode?.setSlient(val);
+const handleChange = (val: string | number | boolean) => {
+  if (typeof val === 'boolean') {
+    userVersionNode?.setSilence(val);
+  }
+};
+
+const versionClick = () => {
+  userVersionNode?.setCount(0);
 };
 </script>
 

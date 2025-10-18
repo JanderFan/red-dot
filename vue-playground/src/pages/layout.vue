@@ -43,19 +43,38 @@
         <user />
       </el-tab-pane>
     </el-tabs>
+
+    <div>
+      <el-button @click="friendAdd"> 收到新朋友添加 </el-button>
+      <el-button @click="friendFind"> 发现新朋友 </el-button>
+      <el-button @click="newVersion"> 发现新版本 </el-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRedDotState } from '../composable/useRedDotState';
+import { random } from 'lodash-es';
+import { useRedDotState, useRedDotTrie } from 'red-dot-vue';
 import friend from './friend/layout.vue';
 import message from './message/layout.vue';
 import moment from './moment/layout.vue';
 import user from './user/layout.vue';
 
+const redDotTrie = useRedDotTrie();
 const [friendCount] = useRedDotState('friend');
 const [momentCount] = useRedDotState('moment');
 const [userCount] = useRedDotState('user');
+
+const friendAdd = () => {
+  redDotTrie.setCountFromPath('friend.new', random(10, false));
+};
+
+const friendFind = () => {
+  redDotTrie.setCountFromPath('friend.find', random(10, false));
+};
+const newVersion = () => {
+  redDotTrie.setCountFromPath('user.version', 1);
+};
 </script>
 
 <style scoped>
