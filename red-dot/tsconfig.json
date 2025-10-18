@@ -1,5 +1,4 @@
 {
-  "$schema": "../../.vscode/tsconfig",
   "compilerOptions": {
     "strict": true,
     "allowJs": false,

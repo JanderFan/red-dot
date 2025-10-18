@@ -1,5 +1,5 @@
 {
-  "name": "red-dot-vue",
+  "name": "red-dot-react",
   "version": "1.0.0",
   "description": "",
   "module": "dist/index.mjs",
@@ -14,10 +14,10 @@
   "license": "MIT",
   "devDependencies": {
     "red-dot": "workspace:^",
-    "vue": "catalog:vue3"
+    "react": "catalog:react19"
   },
   "peerDependencies": {
     "red-dot": "workspace:^",
-    "vue": "catalog:vue3"
+    "@types/react": "catalog:react19"
   }
 }
