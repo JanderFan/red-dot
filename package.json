@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "description": "红点管理",
   "scripts": {
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "build": "turbo run build"
   },
-  "author": "Jander Fan",
+  "author": "JanderFan",
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
     "@types/jest": "^30.0.0",
@@ -14,6 +15,7 @@
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.5",
     "tsup": "^8.5.0",
+    "turbo": "^2.5.8",
     "typescript": "^5.9.3"
   }
 }
