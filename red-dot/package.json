@@ -1,6 +1,6 @@
 {
   "name": "red-dot",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "使用前缀树管理红点的数量关系",
   "keywords": [
     "red",
