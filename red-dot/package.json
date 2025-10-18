@@ -3,8 +3,7 @@
   "version": "2.0.0",
   "description": "使用前缀树管理红点的数量关系",
   "keywords": [
-    "red",
-    "dot"
+    "red dot"
   ],
   "scripts": {
     "dev": "tsup --watch",
