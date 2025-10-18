@@ -35,5 +35,5 @@ export const useRedDotTrie = () => {
 
 export const useRedDotNode = (path: string) => {
   const redDotTrieInstance = useRedDotTrie();
-  return redDotTrieInstance.search(path);
+  return redDotTrieInstance.insert(path);
 };

@@ -1,4 +1,5 @@
 import { action, autorun, makeObservable, observable } from 'mobx';
+import { RootKey } from './constant';
 
 export type RedDotNodeJSON = {
   key: string;
@@ -22,6 +23,19 @@ export class RedDotNode {
    * 红点数量
    */
   count = 0;
+
+  get path(): string {
+    let parent = this.parent;
+    const result = [this.key];
+    while (parent !== null) {
+      if (parent.key === RootKey) {
+        break;
+      }
+      result.unshift(parent.key);
+      parent = parent.parent;
+    }
+    return result.join('.');
+  }
 
   constructor(
     public key: string,

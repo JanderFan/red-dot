@@ -166,4 +166,87 @@ describe('RedDotManager', () => {
     const momentNode = redDotManager.search('moment');
     expect(momentNode?.count).toBe(1);
   });
+
+  test('path', () => {
+    const redDotManager = new RedDotTrie();
+    const momentShare = redDotManager.insert('moment.share');
+    expect(momentShare?.path).toBe('moment.share');
+    expect(redDotManager.root.path).toBe('');
+  });
+
+  test('safe insert', () => {
+    const redDotManager = new RedDotTrie();
+    const momentShare = redDotManager.insert('moment.share');
+    expect(momentShare?.path).toBe('moment.share');
+    expect(momentShare?.key).toBe('share');
+    const momentNode = redDotManager.search('moment');
+    expect(momentNode?.key).toBe('moment');
+
+    redDotManager.fromJSON({
+      key: 'root',
+      count: 1,
+      isSilence: false,
+      children: [
+        {
+          key: 'moment',
+          count: 1,
+          isSilence: false,
+          children: [
+            {
+              key: 'share',
+              isSilence: false,
+              count: 1,
+              children: []
+            }
+          ]
+        }
+      ]
+    });
+
+    expect(momentNode?.count).toBe(1);
+    const momentShare1 = redDotManager.insert('moment.share');
+    expect(momentShare1.count).toBe(1);
+  });
+
+  test('double insert', () => {
+    const redDotManager = new RedDotTrie();
+    const momentShare = redDotManager.insert('moment.share');
+    expect(momentShare.key).toBe('share');
+    const momentShare1 = redDotManager.insert('moment.share');
+    expect(momentShare.key).toBe('share');
+    expect(momentShare).toEqual(momentShare1);
+  });
+
+  test('after json insert', () => {
+    const redDotManager = new RedDotTrie();
+    const momentShare = redDotManager.insert('moment.share');
+    expect(momentShare.key).toBe('share');
+    expect(momentShare.count).toBe(0);
+
+    redDotManager.fromJSON({
+      key: 'root',
+      count: 1,
+      isSilence: false,
+      children: [
+        {
+          key: 'moment',
+          count: 1,
+          isSilence: false,
+          children: [
+            {
+              key: 'share',
+              isSilence: false,
+              count: 1,
+              children: []
+            }
+          ]
+        }
+      ]
+    });
+
+    const momentShare1 = redDotManager.search('moment.share');
+    expect(momentShare1?.count).toEqual(1);
+
+    expect(momentShare).toEqual(momentShare1);
+  });
 });
