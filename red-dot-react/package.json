@@ -13,14 +13,9 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
-    "eslint": "^9.36.0",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^16.4.0",
-    "jiti": "^2.6.1",
     "react": "catalog:react19",
-    "red-dot": "workspace:^",
-    "typescript-eslint": "^8.45.0"
+    "red-dot": "workspace:^"
   },
   "peerDependencies": {
     "@types/react": "catalog:react19",
