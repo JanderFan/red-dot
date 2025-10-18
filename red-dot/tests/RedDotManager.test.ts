@@ -135,16 +135,16 @@ describe('RedDotManager', () => {
     redDotManager.fromJSON({
       key: 'root',
       count: 1,
-      isSlient: false,
+      isSilence: false,
       children: [
         {
           key: 'moment',
           count: 1,
-          isSlient: false,
+          isSilence: false,
           children: [
             {
               key: 'friend',
-              isSlient: false,
+              isSilence: false,
               count: 0,
               children: []
             },
@@ -152,7 +152,7 @@ describe('RedDotManager', () => {
               key: 'game',
               count: 1,
               children: [],
-              isSlient: false
+              isSilence: false
             }
           ]
         }

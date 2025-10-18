@@ -49,7 +49,7 @@ export class RedDotTrie {
       data.forEach((item) => {
         const node = new RedDotNode(item.key, parent);
         node.count = item.count;
-        node.isSlient = item.isSlient;
+        node.isSilence = item.isSilence;
         parent.children.set(item.key, node);
         if (item.children.length > 0) {
           insert(item.children, node);

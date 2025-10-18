@@ -3,36 +3,36 @@
 </template>
 
 <script setup lang="ts">
+import { useRedDotTrie } from 'red-dot-vue';
 import RootLayout from './pages/layout.vue';
-import { useRedDotTrie } from './plugin/red-dot';
 
 const redDotTrie = useRedDotTrie();
 
 redDotTrie.fromJSON({
   key: 'root',
   count: 11,
-  isSlient: false,
+  isSilence: false,
   children: [
     {
       key: 'message',
       count: 0,
-      isSlient: false,
+      isSilence: false,
       children: []
     },
     {
       key: 'friend',
       count: 4,
-      isSlient: false,
+      isSilence: false,
       children: [
         {
           key: 'new',
-          isSlient: false,
+          isSilence: false,
           count: 2,
           children: []
         },
         {
           key: 'find',
-          isSlient: false,
+          isSilence: false,
           count: 2,
           children: []
         }
@@ -42,17 +42,17 @@ redDotTrie.fromJSON({
     {
       key: 'moment',
       count: 5,
-      isSlient: false,
+      isSilence: false,
       children: [
         {
           key: 'game',
-          isSlient: false,
+          isSilence: false,
           count: 1,
           children: []
         },
         {
           key: 'share',
-          isSlient: false,
+          isSilence: false,
           count: 4,
           children: []
         }
@@ -61,17 +61,17 @@ redDotTrie.fromJSON({
     {
       key: 'user',
       count: 2,
-      isSlient: false,
+      isSilence: false,
       children: [
         {
           key: 'pack',
-          isSlient: false,
+          isSilence: false,
           count: 2,
           children: []
         },
         {
           key: 'version',
-          isSlient: true,
+          isSilence: true,
           count: 1,
           children: []
         }

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../.vscode/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": false,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
+  },
+  "include": ["src", "tests"]
+}

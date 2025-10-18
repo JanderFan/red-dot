@@ -2,12 +2,23 @@
   "name": "red-dot-vue",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.4.1"
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "red-dot": "workspace:^",
+    "vue": "catalog:vue3"
+  },
+  "peerDependencies": {
+    "red-dot": "workspace:^",
+    "vue": "catalog:vue3"
+  }
 }
