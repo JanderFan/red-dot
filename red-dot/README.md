@@ -5,56 +5,32 @@
 - 基于前缀树
 - 子级数量变更，通知父级
 
+## Install
+
+```shell
+pnpm add red-dot
+```
+
 ## Usage
 
 ### Vue
 
+#### Install
+
+```shell
+pnpm add red-dot-vue
+```
+
 目录结构
 
-> src
-> ├── App.vue
-> ├── composable
-> │   └── useRedNodeCount.ts
-> ├── main.ts
-> ├── pages
-> │   ├── friend.vue
-> │   ├── game.vue
-> │   ├── moment.vue
-> │   └── red-dot.vue
-> ├── plugins
-> │   └── red-dot.ts
-
-声明插件
-
-```typescript
-/**
- * @file src/plugin/red-dot.ts
- */
-import { RedDotTrie } from 'red-dot';
-import { inject, type InjectionKey, type Plugin } from 'vue';
-
-const redDotTrie = new RedDotTrie();
-const RedDotTrieInjectionKey: InjectionKey<RedDotTrie> = Symbol();
-
-export const RedDotTriePlugin: Plugin = {
-  install(app) {
-    app.provide(RedDotTrieInjectionKey, redDotTrie);
-  }
-};
-
-export const useRedDotTrie = () => {
-  const redDotTrieInstance = inject(RedDotTrieInjectionKey);
-  if (redDotTrieInstance === undefined) {
-    throw new Error('unwrap');
-  }
-  return redDotTrieInstance;
-};
-
-export const useRedDotNode = (path: string) => {
-  const redDotTrieInstance = useRedDotTrie();
-  return redDotTrieInstance.search(path);
-};
-```
+src
+├── App.vue
+├── main.ts
+├── pages
+│   ├── friend.vue
+│   ├── game.vue
+│   ├── moment.vue
+│   └── red-dot.vue
 
 安装插件
 
@@ -62,7 +38,7 @@ export const useRedDotNode = (path: string) => {
 /**
  * @file src/main.ts
  */
-import { RedDotTriePlugin } from './plugin/red-dot';
+import { RedDotTriePlugin } from 'red-dot-vue';
 import App from './App.vue';
 const app = createApp(App).use(RedDotTriePlugin);
 ```
@@ -74,7 +50,7 @@ const app = createApp(App).use(RedDotTriePlugin);
  * @file src/App.vue
  * */
 <script setup lang="ts">
-import { useRedDotTrie } from './plugins/red-dot';
+import { useRedDotTrie } from 'red-dot-vue';
 
 const redDotTrie = useRedDotTrie();
 redDotTrie.fromJSON({
@@ -130,8 +106,7 @@ red-dot.vue
 </template>
 
 <script setup lang="ts">
-import { useRedNodeCount } from '../composable/useRedNodeCount';
-import { useRedDotTrie } from '../plugins/red-dot';
+import { useRedNodeCount, useRedDotTrie } from 'red-dot-vue';
 import moment from './moment.vue';
 
 const redNodeTrie = useRedDotTrie();
@@ -186,10 +161,9 @@ moment.vue
 
 <script setup lang="ts">
 import type { TabPaneName } from 'element-plus';
-import { useRedNodeCount } from '../composable/useRedNodeCount';
+import { useRedNodeCount, useRedDotNode } from 'red-dot-vue';
 import Friend from './friend.vue';
 import Game from './game.vue';
-import { useRedDotNode } from '../plugins/red-dot';
 
 const gameCount = useRedNodeCount('moment.game');
 const gameNode = useRedDotNode('moment.game');
@@ -232,4 +206,256 @@ friend.vue
 <script setup lang="ts"></script>
 
 <style scoped></style>
+```
+
+### React
+
+#### Install
+
+```shell
+pnpm add red-dot-react
+```
+
+#### 目录结构
+
+├── App.tsx
+├── main.tsx
+├── pages
+│   ├── Friend.tsx
+│   ├── Moment.tsx
+│   └── RootLayout.tsx
+
+```typescript
+/**
+ * @file main.tsx
+ */
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { RedDotProvider } from 'red-dot-react';
+import App from './App.tsx';
+import './index.css';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <RedDotProvider>
+      <App />
+    </RedDotProvider>
+  </StrictMode>
+);
+```
+
+```typescript
+/**
+ * @file App.tsx
+ */
+import { useEffect } from 'react';
+import { useRedDotContext } from 'red-dot-react';
+import RootLayout from './pages/RootLayout';
+
+const App = () => {
+  const redDotContext = useRedDotContext();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      redDotContext.fromJSON({
+        key: 'root',
+        count: 11,
+        isSilence: false,
+        children: [
+          {
+            key: 'friend',
+            count: 4,
+            isSilence: false,
+            children: [
+              {
+                key: 'new',
+                isSilence: false,
+                count: 2,
+                children: []
+              },
+              {
+                key: 'find',
+                isSilence: false,
+                count: 2,
+                children: []
+              }
+            ]
+          },
+
+          {
+            key: 'user',
+            count: 2,
+            isSilence: false,
+            children: [
+              {
+                key: 'pack',
+                isSilence: false,
+                count: 2,
+                children: []
+              },
+              {
+                key: 'version',
+                isSilence: true,
+                count: 1,
+                children: []
+              }
+            ]
+          }
+        ]
+      });
+    }, 3000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [redDotContext]);
+
+  return <RootLayout />;
+};
+
+export default App;
+
+```
+
+```typescript
+/**
+ * @file pages/RootLayout.tsx
+ */
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+// import { useRedDotState } from 'red-dot-react';
+import { useRedDotState } from 'red-dot-react';
+import Friend from './Friend';
+import Moment from './Moment';
+
+const RootLayout = () => {
+  const [friendCount] = useRedDotState('friend');
+  const [userCount] = useRedDotState('user');
+  console.log('RootLayout');
+  return (
+    <Tabs
+      defaultValue="friend"
+      className="w-[400px] m-auto mt-3.5"
+    >
+      <TabsList>
+        <TabsTrigger
+          value="friend"
+          className="relative"
+        >
+          <Badge
+            className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+            variant="destructive"
+          >
+            {friendCount}
+          </Badge>
+          <span>朋友</span>
+        </TabsTrigger>
+        <TabsTrigger
+          className="relative"
+          value="moment"
+        >
+          <Badge
+            className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+            variant="destructive"
+          >
+            {userCount}
+          </Badge>
+          <span>moment</span>
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="friend">
+        <Friend />
+      </TabsContent>
+      <TabsContent value="moment">
+        <Moment />
+      </TabsContent>
+    </Tabs>
+  );
+};
+
+export default RootLayout;
+```
+
+```typescript
+/**
+ * @file pages/Friend.tsx
+ */
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useRedDotState } from 'red-dot-react';
+
+const Friend = () => {
+  const [newFriendCount] = useRedDotState('friend.new');
+  const [findFriendCount] = useRedDotState('friend.find');
+
+  return (
+    <div className="space-y-3">
+      <div>
+        <Button>
+          new friend
+          <Badge variant={'destructive'}>{newFriendCount}</Badge>
+        </Button>
+      </div>
+      <div>
+        <Button>
+          find friend
+          <Badge variant={'destructive'}>{findFriendCount}</Badge>
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default Friend;
+
+```
+
+```typescript
+/**
+ * @file pages/Moment.tsx
+ */
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { useRedDotNode, useRedDotState } from 'red-dot-react';
+
+const Moment = () => {
+  const [userPackCount] = useRedDotState('user.pack');
+  const packNode = useRedDotNode('user.pack');
+  const [userVersionCount, userSilence] = useRedDotState('user.version');
+  const versionNode = useRedDotNode('user.version');
+
+  const handleCheckChange = (checked: boolean) => {
+    versionNode?.setSilence(checked);
+  };
+
+  const handlePackClick = () => {
+    packNode?.setCount(0);
+  };
+
+  console.log('moment');
+  return (
+    <div className="space-y-3">
+      <div>
+        <Button onClick={handlePackClick}>
+          钱包
+          <Badge variant={'destructive'}>{userPackCount}</Badge>
+        </Button>
+      </div>
+      <div>
+        <Button>
+          版本
+          <Badge variant={userSilence ? 'default' : 'destructive'}>{userVersionCount}</Badge>
+        </Button>
+        <Switch
+          checked={userSilence}
+          onCheckedChange={handleCheckChange}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Moment;
+
+
 ```
