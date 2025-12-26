@@ -6,7 +6,8 @@
   "packageManager": "pnpm@9.15.2",
   "scripts": {
     "format": "prettier -w .",
-    "build": "turbo run build --filter=red-dot --filter=red-dot-vue --filter=red-dot-react"
+    "build": "turbo run build --filter=red-dot --filter=red-dot-vue --filter=red-dot-react",
+    "ci:publish": "pnpm publish -r --access public"
   },
   "author": "JanderFan",
   "devDependencies": {
