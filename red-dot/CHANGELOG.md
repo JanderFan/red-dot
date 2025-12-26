@@ -1,5 +1,11 @@
 # red-dot
 
+## 2.1.2
+
+### Patch Changes
+
+- for test ci
+
 ## 2.1.1
 
 ### Patch Changes

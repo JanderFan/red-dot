@@ -1,5 +1,13 @@
 # red-dot-vue
 
+## 3.0.2
+
+### Patch Changes
+
+- for test ci
+- Updated dependencies
+  - red-dot@2.1.2
+
 ## 3.0.1
 
 ### Patch Changes
